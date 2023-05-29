@@ -1,0 +1,8 @@
+{
+  "typescript.tsserver.enableTracing": true,
+  "typescript.tsserver.log": "normal",
+  "typescript.disableAutomaticTypeAcquisition": false,
+  "typescript.experimental.tsserver.web.enableProjectWideIntellisense": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.suggest.autoImports": true
+}

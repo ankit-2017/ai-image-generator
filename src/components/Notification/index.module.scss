@@ -1,0 +1,39 @@
+$mobile: 425px;
+$tablet: 768px;
+
+.container {
+  width: 60%;
+  display: grid;
+  justify-content: center;
+  background-color: lightgray;
+  border-radius: 5px;
+  padding: 10px 0 10px 0;
+
+  p {
+    margin: 10px 0 10px 0;
+    color: rgb(90, 89, 89);
+
+    @media screen and (max-width: $mobile) {
+      font-size: 10px;
+    }
+
+    @media screen and (max-width: $tablet) {
+      font-size: 12px;
+    }
+  }
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+
+  button {
+    padding: 5px;
+    font-size: 14px;
+    color: white;
+
+    @media screen and (max-width: $tablet) {
+      font-size: 12px;
+    }
+  }
+}
