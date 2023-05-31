@@ -1,11 +1,9 @@
 import { JSX, useState } from "react";
-import SearchBar from "components/SearchBar/Index";
-import Card from "components/Card/Index";
-import Loader from "components/Loader/Index";
+import SearchBar from "components/common/SearchBar/Index";
+import Card from "components/common/Card/Index";
+import Loader from "components/common/Loader/Index";
 import Styles from './Home.module.scss'
-import Wallpaper from 'assets/images/wallpaper-large.jpeg'
-import { generateImage } from 'services/imageService'
-import Notification from "components/Notification";
+import Notification from "components/common/Notification";
 // import MockImages from 'mocks/imagesResponse'
 
 const Home = (): JSX.Element => {
@@ -19,9 +17,20 @@ const Home = (): JSX.Element => {
     setLoading(true)
     try {
       if (value && value.length > 3) {
-        const response = await generateImage(value)
+        const response1: any = await fetch('/api/create-images', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ value }),
+        })
+        if (!response1.ok) {
+          const errorResponse = await response1.json()
+          throw Error(errorResponse.error.message);
+        }
+        const response = await response1.json()
         if (response && response.data) {
-          console.log('response', response.data.data)
+          console.log('response2', response.data)
           setResult(response.data.data)
           setLoading(false)
           setHasError(false)
@@ -32,14 +41,7 @@ const Home = (): JSX.Element => {
       setLoading(false)
       setHasError(true)
       setResult([])
-      if (error.response) {
-        const { error: message } = error.response?.data || { error: '' }
-        setErrorMessage(message)
-        console.log("error.response", error.response.status);
-        console.log("error.response", error.response.data);
-      } else {
-        console.log("error.message", error.message);
-      }
+      setErrorMessage(error?.message)
     }
   }
 
@@ -51,7 +53,7 @@ const Home = (): JSX.Element => {
       <div className={Styles.imgWrapper}>
         <img
           className={Styles.blur}
-          src={result[activeIndex || 0]?.url || Wallpaper}
+          src={result[activeIndex || 0]?.url || '/images/wallpaper-large.jpeg'}
           alt="nature"
           width="100%"
           height="100%"
@@ -70,7 +72,7 @@ const Home = (): JSX.Element => {
             <div className={Styles.notificationSection}>
               <Notification
                 heading="Oops! Error"
-                body={errorMessage?.message || ""}
+                body={errorMessage || ""}
                 buttonText="Dismiss"
                 buttonColor="#c9605f"
                 handleButtonClick={() => {
@@ -87,7 +89,7 @@ const Home = (): JSX.Element => {
           text="Generating images..."
           styles={{ marginTop: '30px' }}
         >
-          <div className={Styles.cardWrapper}>
+          <div>
             <Card
               images={result}
               getActiveIndex={getActiveIndex}

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, JSX } from "react"
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { cutomPlaceholderType } from 'utils/placeholderType'
-import Loader from "components/Loader/Index";
+import Loader from "components/common/Loader/Index";
 import Styles from './Index.module.scss'
 
 const SearchBar = ({ handleCreateImage, isLoading }: any): JSX.Element => {
